@@ -51,19 +51,6 @@ export const needYear = (
   return left
 }
 
-console.log(
-  "按照你当前的收入，收益覆盖开销还需要的年数是：",
-  needYear(
-    {
-      income: 204000,
-      saveRatio: 0.7,
-      invertRatio: 0.08,
-      init: 0,
-    },
-    isMoreThanSpend
-  )
-)
-
 export const isMoreThanIncome = (
   config = { income, saveRatio, invertRatio, year, init }
 ) => {
@@ -71,16 +58,3 @@ export const isMoreThanIncome = (
 
   return getInvertNum(config) >= income
 }
-
-console.log(
-  "按照你当前的收入，收益覆盖收入还需要的年数是：",
-  needYear(
-    {
-      income: 204000,
-      saveRatio: 0.7,
-      invertRatio: 0.08,
-      init: 0,
-    },
-    isMoreThanIncome
-  )
-)

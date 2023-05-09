@@ -51,6 +51,17 @@
 import { ref } from "vue"
 import { needYear, isMoreThanIncome, isMoreThanSpend } from "@/utils/index"
 import { computed } from "vue"
+import { onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app"
+
+const share = () => {
+  return {
+    title: "来算算还要打工多少年才能自由？",
+    path: "/pages/index/index",
+  }
+}
+
+onShareAppMessage(share)
+onShareTimeline(share())
 
 const form = ref({
   income: 0,
