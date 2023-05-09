@@ -3,5 +3,6 @@
   "projectname": "invert-freedom",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "libVersion": "2.31.1"
 }

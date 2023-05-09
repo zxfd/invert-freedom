@@ -3,14 +3,18 @@ export const getYearInfo = (config = {}) => {
 
   let newTotal = 0 // 新资金的总数
 
-  const initTotal = init ? init * Math.pow(1 + invertRatio, year) : 0
+  const initTotal = Math.floor(
+    init ? init * Math.pow(1 + invertRatio, year) : 0
+  )
 
   for (let i = 1; i <= year; i++) {
-    newTotal += income * saveRatio * Math.pow(1 + invertRatio, year)
+    newTotal += Math.floor(income * saveRatio * Math.pow(1 + invertRatio, year))
   }
 
-  const invertNum = (newTotal + initTotal) * invertRatio
-  const spendNum = income * (1 - saveRatio)
+  const total = newTotal + initTotal
+
+  const invertNum = Math.floor(total * invertRatio)
+  const spendNum = Math.floor(income * (1 - saveRatio))
 
   const isMoreThanSpend = invertNum >= spendNum
 
@@ -19,6 +23,7 @@ export const getYearInfo = (config = {}) => {
   const isMoreThanIncomeAndSpend = invertNum >= income + spendNum
   return {
     year,
+    total,
     spendNum,
     newTotal,
     initTotal,
