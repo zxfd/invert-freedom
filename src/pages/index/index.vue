@@ -23,7 +23,7 @@
       <input
         type="text"
         class="input"
-        v-model.number="form.saveRatio" />
+        v-model="form.saveRatio" />
     </div>
 
     <div class="item">
@@ -31,27 +31,39 @@
       <input
         type="text"
         class="input"
-        v-model.number="form.invertRatio" />
+        v-model="form.invertRatio" />
     </div>
   </div>
   <div class="output-area">
     <div class="item">
-      <div class="label">覆盖开销所需要的年限是{{ yearToMoreThanSpend }}年</div>
+      <div class="label">
+        覆盖开销所需要的年限是{{ yearToMoreThanSpend.year }}年
+      </div>
     </div>
 
     <div class="item">
       <div class="label">
-        覆盖收入所需要的年限是{{ yearToMoreThanIncome }}年
+        覆盖收入所需要的年限是{{ yearToMoreThanIncome.year }}年
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="label">
+        覆盖收入+开销的年限是{{ yearToMoreThanIncomeAndSpend.year }}年
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
-import { needYear, isMoreThanIncome, isMoreThanSpend } from "@/utils/index"
-import { computed } from "vue"
+import { ref, computed } from "vue"
 import { onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app"
+
+import {
+  yearMoreThanSpend,
+  yearMoreThanIncome,
+  yearMoreThanIncomeAndSpend,
+} from "@/utils/tools"
 
 const share = () => {
   return {
@@ -71,11 +83,15 @@ const form = ref({
 })
 
 const yearToMoreThanSpend = computed(() => {
-  return needYear(form.value, isMoreThanSpend)
+  return yearMoreThanSpend(form.value)
 })
 
 const yearToMoreThanIncome = computed(() => {
-  return needYear(form.value, isMoreThanIncome)
+  return yearMoreThanIncome(form.value)
+})
+
+const yearToMoreThanIncomeAndSpend = computed(() => {
+  return yearMoreThanIncomeAndSpend(form.value)
 })
 </script>
 
