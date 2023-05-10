@@ -8,7 +8,7 @@ export const getYearInfo = (config = {}) => {
   )
 
   for (let i = 1; i <= year; i++) {
-    newTotal += Math.floor(income * saveRatio * Math.pow(1 + invertRatio, year))
+    newTotal += Math.floor(income * saveRatio * Math.pow(1 + invertRatio, i))
   }
 
   const total = newTotal + initTotal
