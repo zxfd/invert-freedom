@@ -1,10 +1,13 @@
 export const getDetailList = (config = {}) => {
-  const { income, saveRatio, invertRatio: _invertRatio, init } = config
+  let { income, saveRatio, invertRatio: _invertRatio, init } = config
   const invertRatio = Number(_invertRatio)
   const list = []
   let newTotal = 0
-  const saveNumEachYear = income * saveRatio
   for (let year = 1; year <= 65; year++) {
+    if (year > 1 && list[list.length - 1].isMoreThanSpend) {
+      saveRatio = 1
+    }
+    const saveNumEachYear = income * saveRatio
     newTotal += Math.floor(
       saveNumEachYear * Math.pow(1 + Number(invertRatio), year)
     )
