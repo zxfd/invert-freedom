@@ -39,19 +39,19 @@
     <div class="output-area">
       <div class="item">
         <div class="label">
-          覆盖开销所需要的年限是{{ yearToMoreThanSpend.year }}年
+          覆盖开销所需要的年限是{{ yearToMoreThanSpend }}年
         </div>
       </div>
 
       <div class="item">
         <div class="label">
-          覆盖收入所需要的年限是{{ yearToMoreThanIncome.year }}年
+          覆盖收入所需要的年限是{{ yearToMoreThanIncome }}年
         </div>
       </div>
 
       <div class="item">
         <div class="label">
-          覆盖收入+开销的年限是{{ yearToMoreThanIncomeAndSpend.year }}年
+          覆盖收入+开销的年限是{{ yearToMoreThanIncomeAndSpend }}年
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
     <div class="detail-area">
       <div
         class="detail-item"
-        v-for="info in yearToMoreThanIncomeAndSpend.needList"
+        v-for="info in detailList"
         :key="info.year">
         <div class="row">
           <div class="year">第{{ info.year }}年</div>
@@ -100,14 +100,10 @@
 </template>
 
 <script setup>
-import { ref, computed, defineComponent } from "vue"
+import { ref, computed } from "vue"
 import { onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app"
 
-import {
-  yearMoreThanSpend,
-  yearMoreThanIncome,
-  yearMoreThanIncomeAndSpend,
-} from "@/utils/tools"
+import { getDetailList } from "@/utils/new"
 
 const share = () => {
   return {
@@ -126,16 +122,25 @@ const form = ref({
   init: 260000,
 })
 
+const detailList = computed(() => {
+  return getDetailList(form.value)
+})
+
+const getYear = (list, key) => {
+  const index = list.findIndex((item) => item[key])
+  return index + 1
+}
+
 const yearToMoreThanSpend = computed(() => {
-  return yearMoreThanSpend(form.value)
+  return getYear(detailList.value, "isMoreThanSpend")
 })
 
 const yearToMoreThanIncome = computed(() => {
-  return yearMoreThanIncome(form.value)
+  return getYear(detailList.value, "isMoreThanIncome")
 })
 
 const yearToMoreThanIncomeAndSpend = computed(() => {
-  return yearMoreThanIncomeAndSpend(form.value)
+  return getYear(detailList.value, "isMoreThanIncomeAndSpend")
 })
 
 const freedom = computed(() => {
@@ -143,7 +148,7 @@ const freedom = computed(() => {
     const { isMoreThanSpend, isMoreThanIncome, isMoreThanIncomeAndSpend } = info
 
     if (isMoreThanIncomeAndSpend) {
-      return "开销+收入"
+      return "炒老板"
     }
 
     if (isMoreThanIncome) {
